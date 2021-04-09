@@ -1,33 +1,33 @@
-const MongoClient = require('mongodb').MongoClient;
+var nodemailer = require('nodemailer');
 
-var dbo
-  var name ="sss"
-  a=function(){
-MongoClient.connect("mongodb://localhost:27017/", function(err, db) {
-  /*if (err) throw err;
-  var dbo = db.db("appnhac");
-  dbo.collection("user").find({}).toArray(function(err, result) {
-    if (err) throw err;
-    console.log(result);
-    db.close();
-  });*/
-
-  if(err){return console.log(err)}
-  var dbo=db.db("appchat");
-  dbo.collection("user").find({}).toArray(function(err, result) {
-    if (err) throw err;
-    console.log(result);
-    db.close();
-  });
-  var myobj = { username: name, password: name,gmail: "ss" };
-  dbo.collection("user").insertOne(myobj, function(err, res) {
-    if (err) throw err;
-    console.log("1 document inserted");
-    db.close();
-  });
-  console.log("thành công")
-  
+var transporter = nodemailer.createTransport({
+  service: 'gmail',
+  auth: {
+    user: 'tripham059@gmail.com',
+    pass: 'tripham208'
+  }
 });
 
-}
-  a()
+var mailOptions = {
+  from: 'tripham059@gmail.com',
+  to: 'phamminhtri208@gmail.com',
+  subject: 'Sending Email using Node.js',
+  text: 'That was easy!'
+};
+
+transporter.sendMail(mailOptions, function(error, info){
+  if (error) {
+    console.log(error);
+  } else {
+    console.log('Email sent: ' + info.response);
+  }
+});
+
+transporter.verify(function(error, success) {
+  // Nếu có lỗi.
+  if (error) {
+      console.log(error);
+  } else { //Nếu thành công.
+      console.log('Kết nối thành công!');
+  }
+});

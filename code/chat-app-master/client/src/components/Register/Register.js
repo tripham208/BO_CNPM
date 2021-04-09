@@ -20,6 +20,7 @@ export const Register = ({ location }) => {
   const [name, setName] = useState('');
   const [gmail, setGmail] = useState('');
   const [pass, setPass] = useState('');
+  const [check, setCheck] = useState('');
   const ENDPOINT = 'http://localhost:5000/';
 
 /*
@@ -64,24 +65,37 @@ export const Register = ({ location }) => {
   const sub = function (event) {
     
  
-    
-    //  const { name, pass,gmail } = queryString.parse(location.search);
-  
+  if(check !=1234) {
+    alert ("mã sai")
+  }
+  else{
       socket = io(ENDPOINT);
   
-    //  setGmail(gmail);
-    //  setName(name)
-     // setPass(pass);
-     // const pass =name
-     // const gmail =name
+
       socket.emit('register', { name, pass,gmail }, (error) => {
         if(error) {
           alert(error);
         }
       });
-    
+    }
     alert('Giá trị đã được submit: ' + name);
   }
+  const sendcheck = function (event) {
+    
+ 
+  
+    socket = io(ENDPOINT);
+
+
+    socket.emit('checkgmail', {gmail }, (error) => {
+      if(error) {
+        alert(error);
+      }
+    });
+  
+  alert('gmail gửi đến' + name);
+  check=1234;
+}
 
   
 
@@ -102,6 +116,10 @@ export const Register = ({ location }) => {
           </div>
           <div>
             <input placeholder="email" className="joinInput mt-20" type="text" onChange={(event) => setGmail(event.target.value)}/>
+          </div>
+          <button className={'button mt-20'} onClick={sendcheck}>nhận mã</button>
+          <div>
+            <input placeholder="mã xác nhận" className="joinInput mt-20" type="text" onChange={(event) => setCheck(event.target.value)}/>
           </div>
           <button className={'button mt-20'} onClick={sub}>Sign Up</button>
           <Link to={`/`}>
