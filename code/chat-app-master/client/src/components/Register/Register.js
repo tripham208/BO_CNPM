@@ -1,54 +1,109 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from "react";
+import queryString from 'query-string';
+import io from "socket.io-client";
+
 import { Link } from "react-router-dom";
 
 import './Join.css';
 
-//const Mongo = require('mongodb').MongoClient;
 
 
-  var name = ''
-  var password = ''
-  var gmail = ''
-export const Register = () => {
 
-  const handleSubmit = function (event) {
-    let dbo/*
-    MongoClient.connect("mongodb://localhost:27017/", function (err, db) {
-      if(err){return console.log(err)}
-      var dbo=db.db("appchat");
-      dbo.collection("user").find({}).toArray(function(err, result) {
-        if (err) throw err;
-        console.log(result);
-        db.close();
-      });*/
-      console.log("thành công")
-      /*var myobj = { username: name, password: name,gmail: name };
-      dbo.collection("user").insertOne(myobj, function(err, res) {
-        if (err) throw err;
-        console.log("1 document inserted");
-        db.close();
+
+
+
+
+
+
+let socket;
+export const Register = ({ location }) => {
+  const [name, setName] = useState('');
+  const [gmail, setGmail] = useState('');
+  const [pass, setPass] = useState('');
+  const ENDPOINT = 'http://localhost:5000/';
+
+/*
+  useEffect(() => {
+
+    socket = io(ENDPOINT);
+
+    setName(name);
+    alert (name +"here")
+    socket.emit('join', { name, name }, (error) => {
+      if (error) {
+        alert(error);
+      }
+    });
+  }, [ENDPOINT]);
+
+
+
+*/
+
+
+
+
+/*
+  useEffect(() => {
+    const { name, pass,gmail } = queryString.parse(location.search);
+
+    socket = io(ENDPOINT);
+
+    setGmail(gmail);
+    setName(name)
+    setPass(pass);
+
+    socket.emit('register', { name, pass,gmail }, (error) => {
+      if(error) {
+        alert(error);
+      }
+    });
+  }, [ENDPOINT, location.search]);*/
+
+
+  const sub = function (event) {
+    
+ 
+    
+    //  const { name, pass,gmail } = queryString.parse(location.search);
+  
+      socket = io(ENDPOINT);
+  
+    //  setGmail(gmail);
+    //  setName(name)
+     // setPass(pass);
+     // const pass =name
+     // const gmail =name
+      socket.emit('register', { name, pass,gmail }, (error) => {
+        if(error) {
+          alert(error);
+        }
       });
-    });*/
-
-
+    
     alert('Giá trị đã được submit: ' + name);
   }
+
+  
+
+
+
+
 
   return (
     <div className="joinOuterContainer">
       <div className="joinInnerContainer">
         <h1 className="heading">Register</h1>
-        <form onSubmit={handleSubmit}>
+        <form >
           <div>
-            <input placeholder="Name" className="joinInput" type="text" onChange={(event) => { name = event.target.value }} />
+            <input placeholder="Name" className="joinInput" type="text" onChange={(event) => setName(event.target.value)} />
           </div>
           <div>
-            <input placeholder="password" className="joinInput mt-20" type="text" />
+            <input placeholder="password" className="joinInput mt-20" type="text" onChange={(event) => setPass(event.target.value)}/>
           </div>
           <div>
-            <input placeholder="email" className="joinInput mt-20" type="text" />
+            <input placeholder="email" className="joinInput mt-20" type="text" onChange={(event) => setGmail(event.target.value)}/>
           </div>
-          <button className={'button mt-20'} type="submit">Sign Up</button>
+          <button className={'button mt-20'} onClick={sub}>Sign Up</button>
           <Link to={`/`}>
             <button className={'button mt-20'} >Sign In</button>
           </Link></form>
