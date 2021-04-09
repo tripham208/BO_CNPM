@@ -25,10 +25,8 @@ export const Chat = ({ location }) => {
     const { name, room } = queryString.parse(location.search);
 
     socket = io(ENDPOINT);
-    alert(name)
     setRoom(room);
     setName(name)
-    alert(name)
     socket.emit('join', { name, room }, (error) => {
       if (error) {
         alert(error);
