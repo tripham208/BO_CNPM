@@ -3,7 +3,7 @@ const express = require('express');
 const socketio = require('socket.io');
 const cors = require('cors');
 
-const { addUser, removeUser, getUser, getUsersInRoom, register,login } = require('./users');
+const { addUser, removeUser, getUser, getUsersInRoom, register, login } = require('./users');
 
 const router = require('./router');
 
@@ -103,20 +103,20 @@ io.on('connect', (socket) => {
 
   socket.on('editpass', ({ name, pass }, callback) => {
 
-   // const { error } = login({name, pass });
-   var url = "mongodb://127.0.0.1:27017/";
+    // const { error } = login({name, pass });
+    var url = "mongodb://127.0.0.1:27017/";
 
-   MongoClient.connect(url, function(err, db) {
-     if (err) throw err;
-     var dbo = db.db("appchat");
-     var myquery = { username: name };
-     var newvalues = { $set: { password: pass } };
-     dbo.collection("user").updateOne(myquery, newvalues, function(err, res) {
-       if (err) throw err;
-       console.log("1 document updated");
-       db.close();
-     });
-   });
+    MongoClient.connect(url, function (err, db) {
+      if (err) throw err;
+      var dbo = db.db("appchat");
+      var myquery = { username: name };
+      var newvalues = { $set: { password: pass } };
+      dbo.collection("user").updateOne(myquery, newvalues, function (err, res) {
+        if (err) throw err;
+        console.log("1 document updated");
+        db.close();
+      });
+    });
     if (error) return callback(error);
     callback();
   });
@@ -124,21 +124,47 @@ io.on('connect', (socket) => {
 
     // const { error } = login({name, pass });
     var url = "mongodb://127.0.0.1:27017/";
- 
-    MongoClient.connect(url, function(err, db) {
+
+    MongoClient.connect(url, function (err, db) {
       if (err) throw err;
       var dbo = db.db("appchat");
       var myquery = { username: name };
       var newvalues = { $set: { gmail: gmail } };
-      dbo.collection("user").updateOne(myquery, newvalues, function(err, res) {
+      dbo.collection("user").updateOne(myquery, newvalues, function (err, res) {
         if (err) throw err;
         console.log("1 document updated");
         db.close();
       });
     });
-     if (error) return callback(error);
-     callback();
-   });
+    if (error) return callback(error);
+    callback();
+  });
+  socket.on('newgr', ({ name, namegr }, callback) => {
+    console.log(name);
+    console.log(namegr);
+    MongoClient.connect("mongodb://localhost:27017/", function (err, db) {
+      if (err) { return console.log(err) }
+      var dbo = db.db("appchat");
+      var today=new Date();
+
+      var myobj = { name: "namegr", owner: "name", time: today.getDate()+'-'+(today.getMonth()+1)+'-'+today.getFullYear() };
+      dbo.collection("group").insertOne(myobj, function (err, res) {
+        if (err) throw err;
+        else{
+        //ck=1;
+        console.log("1 gr inserted");
+        db.close();}
+      });
+      
+      console.log("thành công")
+  
+    });
+    //if (error) return callback(error);
+
+
+
+    callback();
+  });
 
 
 

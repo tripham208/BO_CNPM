@@ -13,6 +13,9 @@ export const Info = ({ name }) => (
       <Link to={`/edit?name=${name}`}>
           <button className={'button mt-20'} type="submit">sửa thông tin</button>
         </Link>
+        <Link to={`/creategr?name=${name}`}>
+          <button className={'button mt-20'} type="submit">tạo nhóm</button>
+        </Link>
     </div>
   </div>
 );
