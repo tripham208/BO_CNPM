@@ -60,6 +60,7 @@ const register = ({  name,pass, gmail }) => {
   name = name.trim().toLowerCase();
 
   var ck=0;
+  try{
   MongoClient.connect("mongodb://localhost:27017/", function (err, db) {
     if (err) { return console.log(err) }
     var dbo = db.db("appchat");
@@ -67,15 +68,17 @@ const register = ({  name,pass, gmail }) => {
     var myobj = { username: name, password: pass, gmail: gmail };
     dbo.collection("user").insertOne(myobj, function (err, res) {
       if (err) throw err;
+      else{
       ck=1;
       console.log("1 document inserted");
-      db.close();
+      db.close();}
     });
     
     console.log("thành công")
 
   });
-
+  }
+  catch{return  { error: 'thất bại.' }}
   if (ck==1) return  { error: 'thất bại.' };
   else return  { error: 'thành công.' };
 } 

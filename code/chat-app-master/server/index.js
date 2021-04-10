@@ -101,19 +101,44 @@ io.on('connect', (socket) => {
     callback();
   });
 
-  socket.on('login', ({ name, pass }, callback) => {
+  socket.on('editpass', ({ name, pass }, callback) => {
 
-    const { error } = login({name, pass });
+   // const { error } = login({name, pass });
+   var url = "mongodb://127.0.0.1:27017/";
 
+   MongoClient.connect(url, function(err, db) {
+     if (err) throw err;
+     var dbo = db.db("appchat");
+     var myquery = { username: name };
+     var newvalues = { $set: { password: pass } };
+     dbo.collection("user").updateOne(myquery, newvalues, function(err, res) {
+       if (err) throw err;
+       console.log("1 document updated");
+       db.close();
+     });
+   });
     if (error) return callback(error);
-
-
-    
-
-
     callback();
   });
+  socket.on('editgmail', ({ name, gmail }, callback) => {
 
+    // const { error } = login({name, pass });
+    var url = "mongodb://127.0.0.1:27017/";
+ 
+    MongoClient.connect(url, function(err, db) {
+      if (err) throw err;
+      var dbo = db.db("appchat");
+      var myquery = { username: name };
+      var newvalues = { $set: { gmail: gmail } };
+      dbo.collection("user").updateOne(myquery, newvalues, function(err, res) {
+        if (err) throw err;
+        console.log("1 document updated");
+        db.close();
+      });
+    });
+     if (error) return callback(error);
+     callback();
+   });
 
 
 

@@ -4,6 +4,7 @@ import io from "socket.io-client";
 
 
 import { InfoBar } from '../InfoBar/InfoBar';
+import { Info } from '../Info/Info';
 import { Input } from '../Input/Input';
 import { Messages } from '../Messages/Messages';
 import { TextContainer } from '../TextContainer/TextContainer'
@@ -14,19 +15,21 @@ let socket;
 
 export const Chat = ({ location }) => {
   const [name, setName] = useState('');
+  const [name2, setName2] = useState('');
   const [room, setRoom] = useState('');
   const [users, setUsers] = useState('');
   const [message, setMessage] = useState('');
   const [messages, setMessages] = useState([]);
   //const ENDPOINT = 'https://react-chat-page.herokuapp.com/';
   const ENDPOINT = 'http://localhost:5000/';
-
+  
   useEffect(() => {
     const { name, room } = queryString.parse(location.search);
 
     socket = io(ENDPOINT);
     setRoom(room);
     setName(name)
+    setName2(name)
     socket.emit('join', { name, room }, (error) => {
       if (error) {
         alert(error);
@@ -55,7 +58,8 @@ export const Chat = ({ location }) => {
 
   return (
     <div className="outerContainer">
-      <TextContainer users={users} />
+      <Info name={name}/>
+      <TextContainer users={users} name={name2}/>
       <div className="container">
         <InfoBar room={room} />
         <Messages messages={messages} name={name} />

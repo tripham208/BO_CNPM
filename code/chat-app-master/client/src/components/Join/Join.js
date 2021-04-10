@@ -26,7 +26,7 @@ export const Join = () => {
       return  event.preventDefault();
     });
 
-    //to={`/chat?name=${name}&room=${room}`}
+    //
   }
   return (
     <div className="joinOuterContainer">
@@ -41,7 +41,7 @@ export const Join = () => {
         <div>
           <input placeholder="Room" className="joinInput mt-20" type="text" onChange={(event) => setRoom(event.target.value)} />
         </div>
-        <Link onClick={check} >
+        <Link onClick={check} to={`/chat?name=${name}&room=${room}`}>
           <button className={'button mt-20'} type="submit">Sign In</button>
         </Link>
         <Link to={`/register`}>

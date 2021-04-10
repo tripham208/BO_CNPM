@@ -1,26 +1,17 @@
 import React from 'react';
 
 import onlineIcon from '../../icons/onlineIcon.png';
-
+import { Link } from "react-router-dom";
 import './TextContainer.css';
 
-export const TextContainer = ({ users }) => (
+export const TextContainer = ({ users,name2 }) => (
   <div className='textContainer'>
+    
     <div>
       <h1>
-        Live Chat
-        <br />
-        Application
+        Live Chat {name2}
       </h1>
-      <h2>
-        This was created by
-        <br />
-        Shawn Humphreys
-        <br />
-        using React, Express,
-        <br />
-        Node, and Socket.io
-      </h2>
+      
     </div>
     {users ? (
       <div>
